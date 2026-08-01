@@ -27,18 +27,18 @@ export default function Hero({ onContactClick, onGetInTouchClick }: HeroProps) {
         { opacity: 0, y: 50 },
         { opacity: 1, y: 0, duration: 1.2 }
       )
-      .fromTo(
-        imageContainerRef.current,
-        { opacity: 0, scale: 1.05 },
-        { opacity: 1, scale: 1, duration: 1.4 },
-        '-=0.8'
-      )
-      .fromTo(
-        textContainerRef.current?.children || [],
-        { opacity: 0, y: 30 },
-        { opacity: 1, y: 0, duration: 1, stagger: 0.2 },
-        '-=0.8'
-      );
+        .fromTo(
+          imageContainerRef.current,
+          { opacity: 0, scale: 1.05 },
+          { opacity: 1, scale: 1, duration: 1.4 },
+          '-=0.8'
+        )
+        .fromTo(
+          textContainerRef.current?.children || [],
+          { opacity: 0, y: 30 },
+          { opacity: 1, y: 0, duration: 1, stagger: 0.2 },
+          '-=0.8'
+        );
 
       // 2. Parallax scale and position shift scroll-trigger
       if (imageRef.current && heroRef.current) {
