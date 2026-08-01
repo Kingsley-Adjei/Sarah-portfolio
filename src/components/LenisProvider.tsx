@@ -7,6 +7,23 @@ interface LenisProviderProps {
   children: ReactNode;
 }
 
+let lenisInstance: Lenis | null = null;
+
+export function getLenis() {
+  return lenisInstance;
+}
+
+// Lenis drives window.scrollTo itself on every animation frame, so a raw
+// window.scrollTo() call gets silently overwritten on the next frame.
+// Route all "jump to top" calls (e.g. on page/view change) through here.
+export function scrollToTop() {
+  if (lenisInstance) {
+    lenisInstance.scrollTo(0, { immediate: true });
+  } else {
+    window.scrollTo(0, 0);
+  }
+}
+
 export default function LenisProvider({ children }: LenisProviderProps) {
   useEffect(() => {
     gsap.registerPlugin(ScrollTrigger);
@@ -20,6 +37,7 @@ export default function LenisProvider({ children }: LenisProviderProps) {
       wheelMultiplier: 1.0,
       touchMultiplier: 1.5,
     });
+    lenisInstance = lenis;
 
     lenis.on('scroll', ScrollTrigger.update);
 
@@ -32,6 +50,7 @@ export default function LenisProvider({ children }: LenisProviderProps) {
 
     return () => {
       lenis.destroy();
+      lenisInstance = null;
       gsap.ticker.remove(updateFn);
     };
   }, []);

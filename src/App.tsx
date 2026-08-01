@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import LenisProvider from '@/components/LenisProvider';
+import LenisProvider, { getLenis, scrollToTop } from '@/components/LenisProvider';
 import Navbar from '@/components/Navbar';
 import Hero from '@/components/Hero';
 import MeetSarah from '@/components/MeetSarah';
@@ -18,7 +18,7 @@ export default function App() {
 
   const handleContactClick = () => {
     setCurrentView('contact');
-    window.scrollTo({ top: 0, behavior: 'smooth' });
+    scrollToTop();
   };
 
   const handleNavClick = (id: string) => {
@@ -27,7 +27,18 @@ export default function App() {
       return;
     }
     setCurrentView(id);
-    window.scrollTo({ top: 0, behavior: 'smooth' });
+    scrollToTop();
+  };
+
+  const handleGetInTouchClick = () => {
+    const target = document.getElementById('direct-collaboration');
+    if (!target) return;
+    const lenis = getLenis();
+    if (lenis) {
+      lenis.scrollTo(target, { offset: -90 });
+    } else {
+      target.scrollIntoView({ behavior: 'smooth' });
+    }
   };
 
   return (
@@ -46,7 +57,7 @@ export default function App() {
           <div className="relative">
             <ScrollCanvasAnimation />
             <div className="relative z-10">
-              <Hero onContactClick={handleContactClick} />
+              <Hero onContactClick={handleContactClick} onGetInTouchClick={handleGetInTouchClick} />
               <MeetSarah />
               <ExploreWork onViewPortfolioClick={() => handleNavClick('portfolio')} />
               <OnSetCollaborations />

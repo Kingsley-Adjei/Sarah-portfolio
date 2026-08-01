@@ -40,7 +40,7 @@ export default function ContactSection() {
 
   return (
     <section
-      id="contact"
+      id="direct-collaboration"
       ref={sectionRef}
       className="relative py-24 md:py-36 px-6 md:px-12 bg-[#080808] border-t border-white/5 overflow-hidden"
     >

@@ -1,5 +1,5 @@
 import React, { useState, useRef, useEffect } from 'react';
-import { Send, Copy, Sparkles, RefreshCw, MessageSquare, Bot, User, Check, ArrowRight, ShieldCheck } from 'lucide-react';
+import { Send, Copy, RefreshCw, MessageSquare, Check, ShieldCheck } from 'lucide-react';
 import gsap from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import {
@@ -19,12 +19,12 @@ interface Message {
 
 export default function ContactScreen() {
   const containerRef = useRef<HTMLDivElement>(null);
-  const chatEndRef = useRef<HTMLDivElement>(null);
+  const messagesContainerRef = useRef<HTMLDivElement>(null);
 
   const [messages, setMessages] = useState<Message[]>([
     {
       id: 1,
-      text: "Welcome to Sarah Adjei's Studio AI Assistant. I can answer your questions about Sarah's filmography, directing approach, screenplay consultations, rates, and worldwide availability. How can I assist your project today?",
+      text: "Welcome to Sarah Adjei's studio. I can answer your questions about Sarah's filmography, directing approach, screenplay consultations, rates, and worldwide availability. How can I assist your project today?",
       sender: 'bot',
       timestamp: 'JUST NOW',
     },
@@ -53,7 +53,10 @@ export default function ContactScreen() {
   }, []);
 
   useEffect(() => {
-    chatEndRef.current?.scrollIntoView({ behavior: 'smooth' });
+    const container = messagesContainerRef.current;
+    if (container) {
+      container.scrollTop = container.scrollHeight;
+    }
   }, [messages, isTyping]);
 
   const handleSendMessage = (text: string) => {
@@ -69,7 +72,6 @@ export default function ContactScreen() {
     setInputValue('');
     setIsTyping(true);
 
-    // AI assistant response logic tailored for Sarah's portfolio
     setTimeout(() => {
       let botResponse =
         "Thank you for reaching out! Sarah specializes in narrative cinema, commercial film directing, and script doctoring. You can also send a direct email to Abena_koblyn@gmail.com or call +233 27 723 3774 for urgent booking inquiries.";
@@ -165,20 +167,20 @@ export default function ContactScreen() {
         {/* Top Minimalist Header */}
         <div className="text-center space-y-3">
           <div className="inline-flex items-center space-x-2 px-3.5 py-1 bg-white/5 border border-white/10 rounded-full">
-            <Sparkles className="w-3.5 h-3.5 text-neutral-300 animate-pulse" />
+            <MessageSquare className="w-3.5 h-3.5 text-neutral-300" />
             <span className="text-[10px] uppercase tracking-[0.25em] text-neutral-300 font-medium">
-              Studio AI Assistant
+              Sarah's Assistant
             </span>
           </div>
           <h1 className="text-2xl sm:text-4xl font-serif tracking-widest text-white uppercase">
-            AI Contact & Consultation System
+            Contact & Consultation
           </h1>
           <p className="text-xs sm:text-sm text-neutral-400 max-w-xl mx-auto font-light leading-relaxed">
             Instant insights on Sarah Adjei’s directing reel, screenplay reviews, schedule availability, and project inquiries.
           </p>
         </div>
 
-        {/* Main Full AI Chat Container */}
+        {/* Chat Container */}
         <div className="bg-[#121212]/80 border border-white/10 rounded-lg shadow-2xl backdrop-blur-xl flex flex-col h-[650px] relative overflow-hidden">
           
           {/* Decorative Top Accent Line */}
@@ -192,12 +194,12 @@ export default function ContactScreen() {
               </div>
               <div>
                 <h3 className="font-serif text-sm tracking-wider text-white uppercase font-medium flex items-center gap-2">
-                  <span>Sarah's Studio AI</span>
+                  <span>Sarah's Assistant</span>
                   <ShieldCheck className="w-3.5 h-3.5 text-neutral-400" />
                 </h3>
                 <p className="text-[10px] uppercase tracking-[0.2em] text-neutral-400 flex items-center gap-1.5 mt-0.5">
                   <span className="w-1.5 h-1.5 rounded-full bg-emerald-500 animate-pulse" />
-                  <span>ONLINE & ACTIVE</span>
+                  <span>AVAILABLE NOW</span>
                 </p>
               </div>
             </div>
@@ -215,13 +217,16 @@ export default function ContactScreen() {
           </div>
 
           {/* Messages Area */}
-          <div className="flex-1 overflow-y-auto p-6 space-y-5 scrollbar-thin scrollbar-thumb-neutral-800">
+          <div
+            ref={messagesContainerRef}
+            className="flex-1 overflow-y-auto p-6 space-y-5 scrollbar-thin scrollbar-thumb-neutral-800"
+          >
             {messages.map((msg) => {
               const isBot = msg.sender === 'bot';
               return (
                 <ChatBubble key={msg.id} variant={isBot ? 'received' : 'sent'} className="group">
                   <ChatBubbleAvatar
-                    fallback={isBot ? 'AI' : 'YOU'}
+                    fallback={isBot ? 'SA' : 'YOU'}
                     className={
                       isBot
                         ? 'bg-neutral-800 border-white/20 text-white'
@@ -273,12 +278,10 @@ export default function ContactScreen() {
 
             {isTyping && (
               <ChatBubble variant="received">
-                <ChatBubbleAvatar fallback="AI" className="bg-neutral-800 text-white" />
+                <ChatBubbleAvatar fallback="SA" className="bg-neutral-800 text-white" />
                 <ChatBubbleMessage isLoading className="bg-[#1a1a1a]" />
               </ChatBubble>
             )}
-
-            <div ref={chatEndRef} />
           </div>
 
           {/* Prompt Suggestions Bar */}
@@ -307,7 +310,7 @@ export default function ContactScreen() {
                 onKeyDown={(e) => {
                   if (e.key === 'Enter') handleSendMessage(inputValue);
                 }}
-                placeholder="Ask Sarah's AI Assistant about directing, scripts, rates, or bookings..."
+                placeholder="Ask Sarah's assistant about directing, scripts, rates, or bookings..."
                 className="flex-1 bg-[#121212] border border-white/10 focus:border-white/40 rounded-md px-4 py-3.5 text-xs sm:text-sm text-white placeholder:text-neutral-500 focus:outline-none transition-colors"
               />
               <button

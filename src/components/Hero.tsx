@@ -5,9 +5,10 @@ import { ScrollTrigger } from 'gsap/ScrollTrigger';
 
 interface HeroProps {
   onContactClick: () => void;
+  onGetInTouchClick: () => void;
 }
 
-export default function Hero({ onContactClick }: HeroProps) {
+export default function Hero({ onContactClick, onGetInTouchClick }: HeroProps) {
   const heroRef = useRef<HTMLDivElement>(null);
   const headingRef = useRef<HTMLHeadingElement>(null);
   const imageContainerRef = useRef<HTMLDivElement>(null);
@@ -120,7 +121,7 @@ export default function Hero({ onContactClick }: HeroProps) {
         {/* Action Buttons */}
         <div className="flex items-center space-x-4">
           <button
-            onClick={onContactClick}
+            onClick={onGetInTouchClick}
             className="cta-btn px-6 py-3 text-xs uppercase tracking-[0.25em] bg-white text-black font-semibold rounded-none hover:bg-neutral-200 transition-all duration-300 shadow-lg cursor-pointer"
           >
             Get in touch
