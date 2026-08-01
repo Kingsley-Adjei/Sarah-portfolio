@@ -62,12 +62,23 @@ body {
   border: 1px solid rgba(255, 255, 255, 0.08);
 }
 
-.hover-glow {
-  transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+@keyframes marquee-scroll {
+  from {
+    transform: translateX(0);
+  }
+  to {
+    transform: translateX(-50%);
+  }
 }
-.hover-glow:hover {
-  border-color: rgba(255, 255, 255, 0.3);
-  box-shadow: 0 0 25px rgba(255, 255, 255, 0.05);
+
+.animate-marquee {
+  animation: marquee-scroll 28s linear infinite;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .animate-marquee {
+    animation: none;
+  }
 }
 
 /* Custom Scrollbar */

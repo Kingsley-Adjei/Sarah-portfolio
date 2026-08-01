@@ -1,6 +1,15 @@
 import { useRef, useEffect } from 'react';
 import gsap from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
+import { Star } from 'lucide-react';
+
+function initials(name: string) {
+  return name
+    .split(' ')
+    .map((part) => part[0])
+    .join('')
+    .toUpperCase();
+}
 
 export default function OnSetCollaborations() {
   const sectionRef = useRef<HTMLDivElement>(null);
@@ -11,16 +20,13 @@ export default function OnSetCollaborations() {
 
     const ctx = gsap.context(() => {
       if (containerRef.current) {
-        const cards = Array.from(containerRef.current.children);
         gsap.fromTo(
-          cards,
-          { opacity: 0, y: 40, scale: 0.95 },
+          containerRef.current,
+          { opacity: 0, y: 40 },
           {
             opacity: 1,
             y: 0,
-            scale: 1,
             duration: 1,
-            stagger: 0.15,
             ease: 'power3.out',
             scrollTrigger: {
               trigger: sectionRef.current,
@@ -43,7 +49,7 @@ export default function OnSetCollaborations() {
         'Sarah is the definition of a modern multi-hyphenate. Whether she is shaping the script or guiding the lens, her collaborative spirit elevates every single frame we touch.',
       author: 'Shelly Annan',
       role: 'Producer & Collaborator',
-      cardStyle: 'bg-[#181818] text-white border-white/10',
+      rating: 5,
     },
     {
       id: 'ama',
@@ -51,7 +57,7 @@ export default function OnSetCollaborations() {
         'I knew she was a force from our very first scene together. Whether she is in front of the lens delivering a raw performance or behind it guiding the crew, Sarah brings a magnetic energy that elevates everyone on set.',
       author: 'Ama Boateng',
       role: 'Lead Actress & Collaborator',
-      cardStyle: 'bg-[#1a1a1a] text-white border-white/20 shadow-2xl scale-102',
+      rating: 5,
     },
     {
       id: 'david',
@@ -59,7 +65,7 @@ export default function OnSetCollaborations() {
         'I knew she was a rare talent when I first read her treatment. Sarah writes with a deep psychological complexity and directs with an absolute visual authority that commands the screen.',
       author: 'David Mensah',
       role: 'Creative Director',
-      cardStyle: 'bg-[#141414] text-white border-white/10',
+      rating: 5,
     },
   ];
 
@@ -77,33 +83,43 @@ export default function OnSetCollaborations() {
           <div className="w-16 h-[2px] bg-white/30 mt-4" />
         </div>
 
-        {/* Testimonials Editorial Grid */}
+        {/* Testimonials Marquee */}
         <div
           ref={containerRef}
-          className="grid grid-cols-1 md:grid-cols-3 gap-8 items-stretch"
+          className="group -mx-6 md:-mx-12 overflow-hidden [mask-image:linear-gradient(to_right,transparent,black_8%,black_92%,transparent)]"
         >
-          {testimonials.map((item) => (
-            <div
-              key={item.id}
-              className={`p-8 md:p-10 rounded-sm border flex flex-col justify-between space-y-8 transition-transform duration-500 hover:-translate-y-2 hover-glow ${item.cardStyle}`}
-            >
-              <div className="space-y-4">
-                <span className="font-serif text-4xl text-neutral-500 leading-none">&ldquo;</span>
-                <p className="text-sm sm:text-base leading-relaxed font-light text-neutral-200">
-                  {item.quote}
-                </p>
-              </div>
+          <div className="flex w-max px-6 md:px-12 animate-marquee group-hover:[animation-play-state:paused]">
+            {[...testimonials, ...testimonials].map((item, index) => (
+              <div
+                key={`${item.id}-${index}`}
+                className="w-[300px] sm:w-[360px] md:w-[420px] shrink-0 border-l border-white/10 pl-8 md:pl-10 pr-6 md:pr-8"
+              >
+                <div className="flex items-center gap-1 mb-5">
+                  {Array.from({ length: 5 }).map((_, i) => (
+                    <Star
+                      key={i}
+                      size={14}
+                      className={i < item.rating ? 'fill-white text-white' : 'text-white/20'}
+                    />
+                  ))}
+                </div>
 
-              <div className="pt-6 border-t border-white/10">
-                <p className="text-xs uppercase tracking-[0.25em] font-semibold text-white">
-                  — {item.author}
+                <p className="text-sm sm:text-[15px] leading-relaxed font-light text-neutral-300">
+                  &ldquo;{item.quote}&rdquo;
                 </p>
-                <p className="text-[11px] uppercase tracking-[0.2em] text-neutral-400 mt-1">
-                  {item.role}
-                </p>
+
+                <div className="flex items-center gap-3 mt-7">
+                  <div className="h-10 w-10 shrink-0 rounded-full bg-white/10 flex items-center justify-center text-xs font-semibold tracking-wide text-white">
+                    {initials(item.author)}
+                  </div>
+                  <div>
+                    <p className="text-sm font-semibold text-white">{item.author}</p>
+                    <p className="text-xs text-neutral-500 mt-0.5">{item.role}</p>
+                  </div>
+                </div>
               </div>
-            </div>
-          ))}
+            ))}
+          </div>
         </div>
       </div>
     </section>
