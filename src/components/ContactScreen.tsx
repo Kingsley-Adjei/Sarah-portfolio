@@ -163,7 +163,7 @@ export default function ContactScreen() {
   return (
     <div className="pt-28 pb-20 px-4 sm:px-6 md:px-12 min-h-[90vh] flex flex-col justify-center items-center">
       <div ref={containerRef} className="w-full max-w-4xl mx-auto space-y-6">
-        
+
         {/* Top Minimalist Header */}
         <div className="text-center space-y-3">
           <div className="inline-flex items-center space-x-2 px-3.5 py-1 bg-white/5 border border-white/10 rounded-full">
@@ -182,7 +182,7 @@ export default function ContactScreen() {
 
         {/* Chat Container */}
         <div className="bg-[#121212]/80 border border-white/10 rounded-lg shadow-2xl backdrop-blur-xl flex flex-col h-[650px] relative overflow-hidden">
-          
+
           {/* Decorative Top Accent Line */}
           <div className="absolute top-0 left-0 right-0 h-1 bg-gradient-to-r from-neutral-800 via-white/40 to-neutral-800" />
 
@@ -224,7 +224,7 @@ export default function ContactScreen() {
             {messages.map((msg) => {
               const isBot = msg.sender === 'bot';
               return (
-                <ChatBubble key={msg.id} variant={isBot ? 'received' : 'sent'} className="group">
+                <ChatBubble key={msg.id} variant={isBot ? 'received' : 'sent'} className="group" children={undefined}>
                   <ChatBubbleAvatar
                     fallback={isBot ? 'SA' : 'YOU'}
                     className={
@@ -277,7 +277,7 @@ export default function ContactScreen() {
             })}
 
             {isTyping && (
-              <ChatBubble variant="received">
+              <ChatBubble variant="received" children={undefined}>
                 <ChatBubbleAvatar fallback="SA" className="bg-neutral-800 text-white" />
                 <ChatBubbleMessage isLoading className="bg-[#1a1a1a]" />
               </ChatBubble>

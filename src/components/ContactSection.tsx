@@ -101,7 +101,7 @@ export default function ContactSection() {
         {/* Right Column: Clean Collaboration Form */}
         <div className="lg:col-span-7 bg-[#121212]/60 border border-white/10 p-8 sm:p-12 relative shadow-2xl">
           <div className="absolute top-0 left-0 right-0 h-1 bg-gradient-to-r from-neutral-800 via-white/20 to-neutral-800" />
-          
+
           <h3 className="text-xl font-serif tracking-widest text-white uppercase mb-2">
             Send a Project Inquiry
           </h3>

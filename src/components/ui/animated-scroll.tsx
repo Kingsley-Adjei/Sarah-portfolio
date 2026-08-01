@@ -172,9 +172,8 @@ export default function ScrollAdventure() {
           <button
             key={i}
             onClick={() => setCurrentPage(i + 1)}
-            className={`w-2.5 h-2.5 rounded-full transition-all cursor-pointer ${
-              currentPage === i + 1 ? 'bg-white scale-125' : 'bg-white/30 hover:bg-white/60'
-            }`}
+            className={`w-2.5 h-2.5 rounded-full transition-all cursor-pointer ${currentPage === i + 1 ? 'bg-white scale-125' : 'bg-white/30 hover:bg-white/60'
+              }`}
             aria-label={`Go to slide ${i + 1}`}
           />
         ))}

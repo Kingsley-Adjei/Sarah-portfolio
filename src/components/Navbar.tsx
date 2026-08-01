@@ -56,11 +56,10 @@ export default function Navbar({ currentView, setCurrentView, onContactClick }: 
 
   return (
     <header
-      className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${
-        scrolled
+      className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${scrolled
           ? 'bg-[#080808]/85 backdrop-blur-md py-4 border-b border-white/10 shadow-2xl'
           : 'bg-transparent py-7'
-      }`}
+        }`}
     >
       <div className="max-w-7xl mx-auto px-6 md:px-12 flex items-center justify-between">
         {/* Brand / Logo */}
@@ -79,9 +78,8 @@ export default function Navbar({ currentView, setCurrentView, onContactClick }: 
               <button
                 key={link.id}
                 onClick={() => handleNavClick(link.id)}
-                className={`text-xs uppercase tracking-[0.25em] font-medium transition-all duration-300 relative py-1 cursor-pointer ${
-                  isActive ? 'text-white' : 'text-neutral-400 hover:text-white'
-                }`}
+                className={`text-xs uppercase tracking-[0.25em] font-medium transition-all duration-300 relative py-1 cursor-pointer ${isActive ? 'text-white' : 'text-neutral-400 hover:text-white'
+                  }`}
               >
                 {link.label}
                 {isActive && (
@@ -109,9 +107,8 @@ export default function Navbar({ currentView, setCurrentView, onContactClick }: 
             <button
               key={link.id}
               onClick={() => handleNavClick(link.id)}
-              className={`text-left text-sm uppercase tracking-[0.2em] font-medium py-3 border-b border-white/5 cursor-pointer ${
-                currentView === link.id ? 'text-white font-semibold' : 'text-neutral-400'
-              }`}
+              className={`text-left text-sm uppercase tracking-[0.2em] font-medium py-3 border-b border-white/5 cursor-pointer ${currentView === link.id ? 'text-white font-semibold' : 'text-neutral-400'
+                }`}
             >
               {link.label}
             </button>
