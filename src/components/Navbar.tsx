@@ -26,7 +26,6 @@ export default function Navbar({ currentView, setCurrentView, onContactClick }: 
   const navLinks = [
     { id: 'home', label: 'HOME' },
     { id: 'about', label: 'ABOUT' },
-    { id: 'filmblog', label: 'FILMBLOG' },
     { id: 'portfolio', label: 'PORTFOLIO' },
     { id: 'contact', label: 'CONTACT' },
   ];
@@ -36,17 +35,6 @@ export default function Navbar({ currentView, setCurrentView, onContactClick }: 
 
     if (id === 'contact') {
       onContactClick();
-      return;
-    }
-
-    if (id === 'filmblog') {
-      setCurrentView('home');
-      setTimeout(() => {
-        const blogEl = document.getElementById('filmblog');
-        if (blogEl) {
-          blogEl.scrollIntoView({ behavior: 'smooth' });
-        }
-      }, 100);
       return;
     }
 

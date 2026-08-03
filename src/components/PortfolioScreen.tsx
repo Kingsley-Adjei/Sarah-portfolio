@@ -1,108 +1,265 @@
-import { useEffect, useRef, useState } from 'react';
-import Image from '@/components/ui/Image';
+import React, { useState, useEffect, useRef } from 'react';
+import { AnimatedFolder, FolderProject } from '@/components/ui/3d-folder';
+import { MorphingCardStack } from '@/components/ui/morphing-card-stack';
+import { Film, Clapperboard, Video, Sparkles, ArrowUpRight } from 'lucide-react';
+import { getLenis } from '@/components/LenisProvider';
 import gsap from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
-import { X } from 'lucide-react';
 
 interface PortfolioScreenProps {
   onContactClick: () => void;
 }
 
+interface PortfolioCategory {
+  id: string;
+  title: string;
+  description: string;
+  icon: React.ReactNode;
+  projects: Array<{
+    id: string;
+    title: string;
+    description: string;
+    image: string;
+    role: string;
+    year: string;
+    youtubeUrl?: string;
+  }>;
+}
+
+const portfolioCategories: PortfolioCategory[] = [
+  {
+    id: 'directing',
+    title: 'Directing',
+    description: 'Narrative feature films, high-concept short films, and dramatic visual storytelling.',
+    icon: <Film className="w-5 h-5 text-white" />,
+    projects: [
+      {
+        id: 'dir-1',
+        title: 'Whispers in the Wind',
+        description: 'An atmospheric drama exploring memory, loss, and redemption in a coastal fishing village.',
+        image: 'https://images.unsplash.com/photo-1485846234645-a62644f84728?q=80&w=1600&auto=format&fit=crop',
+        role: 'Director / Co-Writer',
+        year: '2025',
+        youtubeUrl: 'https://www.youtube.com/watch?v=dQw4w9WgXcQ',
+      },
+      {
+        id: 'dir-2',
+        title: 'Echoes of Silence',
+        description: 'A neo-noir psychological thriller centered on an archivist unearthing forgotten audio recordings.',
+        image: 'https://images.unsplash.com/photo-1536440136628-849c177e76a1?q=80&w=1600&auto=format&fit=crop',
+        role: 'Director',
+        year: '2024',
+        youtubeUrl: 'https://www.youtube.com/watch?v=dQw4w9WgXcQ',
+      },
+      {
+        id: 'dir-3',
+        title: 'Chasing Shadows',
+        description: 'A visually arresting documentary on underground jazz performers surviving in modern metropolises.',
+        image: 'https://images.unsplash.com/photo-1518173946687-a4c8a383392e?q=80&w=1600&auto=format&fit=crop',
+        role: 'Director / Cinematographer',
+        year: '2024',
+        youtubeUrl: 'https://www.youtube.com/watch?v=dQw4w9WgXcQ',
+      },
+      {
+        id: 'dir-4',
+        title: 'Fragments of Time',
+        description: 'Experimental surrealist short exploring distorted timelines and artificial nostalgic memories.',
+        image: 'https://images.unsplash.com/photo-1492691527719-9d1e07e534b4?q=80&w=1600&auto=format&fit=crop',
+        role: 'Director',
+        year: '2023',
+      },
+    ],
+  },
+  {
+    id: 'writing',
+    title: 'Screenwriting',
+    description: 'Character-driven feature screenplays, episodic series bibles, and original narrative treatments.',
+    icon: <Clapperboard className="w-5 h-5 text-white" />,
+    projects: [
+      {
+        id: 'writ-1',
+        title: 'Beyond the Horizon',
+        description: 'Feature screenplay about a rogue astronomer tracking an anomaly off the coast of West Africa.',
+        image: 'https://images.unsplash.com/photo-1455390582262-044cdead277a?q=80&w=1600&auto=format&fit=crop',
+        role: 'Screenwriter',
+        year: '2025',
+      },
+      {
+        id: 'writ-2',
+        title: 'The Midnight Monologues',
+        description: 'An anthology series chronicling interconnected midnight encounters across major international cities.',
+        image: 'https://images.unsplash.com/photo-1478720568477-152d9b164e26?q=80&w=1600&auto=format&fit=crop',
+        role: 'Creator & Lead Writer',
+        year: '2024',
+      },
+      {
+        id: 'writ-3',
+        title: 'Velvet Noir',
+        description: 'Period drama script focusing on 1960s photojournalists during political transformation.',
+        image: 'https://images.unsplash.com/photo-1516321318423-f06f85e504b3?q=80&w=1600&auto=format&fit=crop',
+        role: 'Screenwriter',
+        year: '2023',
+      },
+    ],
+  },
+  {
+    id: 'acting',
+    title: 'Performance',
+    description: 'On-screen dramatic roles, voiceover performances, and physically demanding character studies.',
+    icon: <Video className="w-5 h-5 text-white" />,
+    projects: [
+      {
+        id: 'act-1',
+        title: 'A Silent Plea',
+        description: 'Lead dramatic role portraying Maya, a determined investigative officer facing moral dilemmas.',
+        image: 'https://images.unsplash.com/photo-1534528741775-53994a69daeb?q=80&w=1600&auto=format&fit=crop',
+        role: 'Lead Actress (Maya)',
+        year: '2024',
+        youtubeUrl: 'https://www.youtube.com/watch?v=dQw4w9WgXcQ',
+      },
+      {
+        id: 'act-2',
+        title: 'Behind the Glass',
+        description: 'Supporting role in a psychological chamber drama focusing on confinement and truth.',
+        image: 'https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?q=80&w=1600&auto=format&fit=crop',
+        role: 'Supporting Role (Clara)',
+        year: '2023',
+      },
+      {
+        id: 'act-3',
+        title: 'The Interrogation',
+        description: 'Tense two-character thriller piece executed in real-time camera tracking.',
+        image: 'https://images.unsplash.com/photo-1500648767791-00dcc994a43e?q=80&w=1600&auto=format&fit=crop',
+        role: 'Lead Role (Detective Cole)',
+        year: '2023',
+      },
+    ],
+  },
+  {
+    id: 'production',
+    title: 'Production',
+    description: 'End-to-end creative producing, line management, location scouting, and festival distribution strategy.',
+    icon: <Sparkles className="w-5 h-5 text-white" />,
+    projects: [
+      {
+        id: 'prod-1',
+        title: 'Golden Hour Productions',
+        description: 'Executive produced a 6-part mini series filmed across 3 international locations.',
+        image: 'https://images.unsplash.com/photo-1517604931442-7e0c8ed2963c?q=80&w=1600&auto=format&fit=crop',
+        role: 'Executive Producer',
+        year: '2025',
+      },
+      {
+        id: 'prod-2',
+        title: 'City Lights Narrative',
+        description: 'Overseeing complete physical production logistics, crew assembly, and post-production workflows.',
+        image: 'https://images.unsplash.com/photo-1489599849927-2ee91cede3ba?q=80&w=1600&auto=format&fit=crop',
+        role: 'Producer',
+        year: '2024',
+      },
+      {
+        id: 'prod-3',
+        title: 'Unseen Cinema Initiative',
+        description: 'Curating independent film showcases and funding mentorship grants for emerging voices.',
+        image: 'https://images.unsplash.com/photo-1524985069026-dd778a71c7b4?q=80&w=1600&auto=format&fit=crop',
+        role: 'Creative Producer',
+        year: '2023',
+      },
+    ],
+  },
+  {
+    id: 'bts',
+    title: 'Behind The Scenes',
+    description: 'On-set photography, anamorphic camera rigging, lighting setups, and directorial process documentation.',
+    icon: <Film className="w-5 h-5 text-white" />,
+    projects: [
+      {
+        id: 'bts-1',
+        title: 'Anamorphic Rigging & Lighting',
+        description: 'Documenting the complex 35mm lens calibration and heavy lighting rigs on set.',
+        image: 'https://images.unsplash.com/photo-1492691527719-9d1e07e534b4?q=80&w=1600&auto=format&fit=crop',
+        role: 'BTS Photographer',
+        year: '2025',
+      },
+      {
+        id: 'bts-2',
+        title: 'Directing the Ensemble',
+        description: 'Intimate candid captures of scene blockings and director-actor collaborations.',
+        image: 'https://images.unsplash.com/photo-1518173946687-a4c8a383392e?q=80&w=1600&auto=format&fit=crop',
+        role: 'BTS Photographer',
+        year: '2024',
+      },
+      {
+        id: 'bts-3',
+        title: 'Night Shoot Logistics',
+        description: 'High-contrast nocturnal set photography showing atmosphere and crew dedication.',
+        image: 'https://images.unsplash.com/photo-1536440136628-849c177e76a1?q=80&w=1600&auto=format&fit=crop',
+        role: 'BTS Photographer',
+        year: '2024',
+      },
+    ],
+  },
+];
+
 export default function PortfolioScreen({ onContactClick }: PortfolioScreenProps) {
   const containerRef = useRef<HTMLDivElement>(null);
-  const [selectedImage, setSelectedImage] = useState<string | null>(null);
+  const [activeCategory, setActiveCategory] = useState<PortfolioCategory | null>(null);
+
+  // Lock background body scroll & pause Lenis when modal overlay is open
+  useEffect(() => {
+    const lenis = getLenis();
+    if (activeCategory) {
+      document.body.style.overflow = 'hidden';
+      lenis?.stop();
+    } else {
+      document.body.style.overflow = '';
+      lenis?.start();
+    }
+    return () => {
+      document.body.style.overflow = '';
+      lenis?.start();
+    };
+  }, [activeCategory]);
 
   useEffect(() => {
     gsap.registerPlugin(ScrollTrigger);
 
     const ctx = gsap.context(() => {
-      // Reveal headings on scroll down and up
       gsap.fromTo(
         '.reveal-header',
+        { opacity: 0, y: 30 },
+        {
+          opacity: 1,
+          y: 0,
+          duration: 1,
+          ease: 'power3.out',
+        }
+      );
+
+      gsap.fromTo(
+        '.folder-card-wrapper',
         { opacity: 0, y: 40 },
         {
           opacity: 1,
           y: 0,
-          duration: 1.2,
-          ease: 'power3.out',
+          duration: 0.8,
+          stagger: 0.12,
+          ease: 'power2.out',
           scrollTrigger: {
-            trigger: '.reveal-header',
+            trigger: '.folder-grid',
             start: 'top 85%',
-            end: 'bottom 15%',
-            toggleActions: 'play reverse play reverse',
           },
         }
       );
-
-      // Stagger items inside each category grid on scroll down and up
-      const grids = gsap.utils.toArray('.category-grid');
-      grids.forEach((grid: any) => {
-        gsap.fromTo(
-          grid.children,
-          { opacity: 0, y: 40, scale: 0.96 },
-          {
-            opacity: 1,
-            y: 0,
-            scale: 1,
-            duration: 0.8,
-            stagger: 0.12,
-            ease: 'power2.out',
-            scrollTrigger: {
-              trigger: grid,
-              start: 'top 85%',
-              end: 'bottom 15%',
-              toggleActions: 'play reverse play reverse',
-            },
-          }
-        );
-      });
     }, containerRef);
 
     return () => ctx.revert();
   }, []);
 
-  const directingGrid = [
-    { src: '/images/hero-set.png', alt: 'Directing camera setup', span: 'col-span-2' },
-    { src: '/images/sarah-portrait.png', alt: 'Director monitor log', span: 'col-span-1' },
-    { src: '/images/bts-slate.png', alt: 'Directing monitor feed', span: 'col-span-1' },
-    { src: '/images/performance.png', alt: 'Director with head set', span: 'col-span-1' },
-    { src: '/images/cine-lens.png', alt: 'Cine view finder details', span: 'col-span-1' },
-    { src: '/images/hero-set.png', alt: 'Set lights monitor', span: 'col-span-2' },
-  ];
-
-  const writingGrid = [
-    { src: '/images/screenplay.png', alt: 'Typewriter Chapter Two script', span: 'col-span-1' },
-    { src: '/images/screenplay.png', alt: 'Hand writing detail', span: 'col-span-1' },
-    { src: '/images/screenplay.png', alt: 'Notebook with draft notes', span: 'col-span-1' },
-    { src: '/images/screenplay.png', alt: 'Laptop screen dialogue typing', span: 'col-span-2' },
-    { src: '/images/screenplay.png', alt: 'Close-up of screenplay text', span: 'col-span-1' },
-  ];
-
-  const actingGrid = [
-    { src: '/images/performance.png', alt: 'Emotional close up performance', span: 'col-span-1' },
-    { src: '/images/performance.png', alt: 'Behind cage window scene', span: 'col-span-2' },
-    { src: '/images/sarah-portrait.png', alt: 'Actress dressing room prep', span: 'col-span-1' },
-    { src: '/images/performance.png', alt: 'Violent blue-purple scene lighting', span: 'col-span-2' },
-  ];
-
-  const productionGrid = [
-    { src: '/images/bts-slate.png', alt: 'Production clapperboard slate log', span: 'col-span-2' },
-    { src: '/images/hero-set.png', alt: 'Production crew on street', span: 'col-span-1' },
-    { src: '/images/cine-lens.png', alt: 'Cine lens barrel macro details', span: 'col-span-1' },
-    { src: '/images/hero-set.png', alt: 'Filming set sunrise silhouette', span: 'col-span-2' },
-  ];
-
-  const btsGrid = [
-    { src: '/images/bts-slate.png', alt: 'BTS Clapperboard details close up', span: 'col-span-1' },
-    { src: '/images/hero-set.png', alt: 'BTS Camera rigging setup', span: 'col-span-2' },
-    { src: '/images/sarah-portrait.png', alt: 'BTS Director framing actor', span: 'col-span-2' },
-    { src: '/images/performance.png', alt: 'BTS Lighting set configuration', span: 'col-span-1' },
-  ];
-
   return (
-    <div ref={containerRef} className="bg-[#080808] text-white min-h-screen pt-24 pb-20 px-6 md:px-12">
+    <div ref={containerRef} className="bg-[#080808] text-white min-h-screen pt-28 pb-20 px-6 md:px-12 relative overflow-x-hidden">
       {/* 1. Header Hero Area */}
-      <section className="max-w-7xl mx-auto grid grid-cols-1 lg:grid-cols-12 gap-12 items-end mb-24 reveal-header">
+      <section className="max-w-7xl mx-auto grid grid-cols-1 lg:grid-cols-12 gap-12 items-end mb-20 reveal-header">
         <div className="lg:col-span-8 space-y-4">
           <h1 className="text-4xl sm:text-7xl font-serif tracking-widest text-white uppercase leading-[1.05]">
             PORTFOLIO
@@ -110,192 +267,127 @@ export default function PortfolioScreen({ onContactClick }: PortfolioScreenProps
           <p className="text-xl sm:text-3xl font-serif italic text-neutral-400">
             Directed by Sarah Adjei
           </p>
-          <p className="max-w-xl text-neutral-400 text-sm sm:text-base leading-relaxed font-light mt-4">
-            A curated collection of cinematic works spanning directing, screenwriting, performance, and behind-the-scenes photography.
+          <p className="max-w-2xl text-neutral-400 text-sm sm:text-base leading-relaxed font-light mt-4">
+            A curated collection of cinematic works spanning directing, screenwriting, performance, and behind-the-scenes photography. Select a folder to view film details and trailers.
           </p>
         </div>
 
-        {/* Blurred Portrait Right */}
-        <div className="lg:col-span-4 relative aspect-[4/3] rounded-sm overflow-hidden border border-white/10 grayscale blur-[1px] brightness-[0.7]">
-          <Image
+        <div className="lg:col-span-4 relative aspect-[16/10] rounded-2xl overflow-hidden border border-white/10 grayscale contrast-125 shadow-2xl">
+          <img
             src="/images/sarah-portrait.png"
-            alt="Sarah Portrait"
-            fill
-            className="object-cover"
+            alt="Sarah Adjei"
+            className="w-full h-full object-cover"
+            onError={(e) => {
+              (e.target as HTMLImageElement).src =
+                'https://images.unsplash.com/photo-1534528741775-53994a69daeb?q=80&w=1600&auto=format&fit=crop';
+            }}
           />
+          <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-transparent to-transparent" />
         </div>
       </section>
 
-      {/* 2. Portfolio Categories */}
-      <section className="max-w-7xl mx-auto space-y-24 border-t border-white/10 pt-16">
-        <div className="text-center mb-16">
-          <h2 className="text-xs uppercase tracking-[0.4em] text-neutral-400 font-semibold">
-            CATEGORIES
-          </h2>
-          <div className="w-16 h-[1px] bg-white/20 mx-auto mt-4" />
-        </div>
-
-        {/* Directing Category */}
-        <div className="space-y-8">
-          <h3 className="text-lg uppercase tracking-[0.25em] font-serif text-white border-b border-white/5 pb-3">
-            Directing
-          </h3>
-          <div className="grid grid-cols-1 sm:grid-cols-3 gap-4 category-grid">
-            {directingGrid.map((item, idx) => (
-              <div
-                key={idx}
-                onClick={() => setSelectedImage(item.src)}
-                className={`relative aspect-[16/10] overflow-hidden border border-white/10 rounded-sm cursor-pointer group ${item.span}`}
-              >
-                <Image
-                  src={item.src}
-                  alt={item.alt}
-                  fill
-                  className="object-cover grayscale contrast-125 group-hover:scale-105 transition-transform duration-700 ease-out"
-                />
-              </div>
-            ))}
+      {/* 2. 3D Folders Grid Section */}
+      <section className="max-w-7xl mx-auto space-y-12 border-t border-white/10 pt-16">
+        <div className="flex flex-col md:flex-row md:items-end justify-between gap-4 mb-8">
+          <div>
+            <span className="text-xs uppercase tracking-[0.35em] text-neutral-400 font-semibold block mb-1">DISCIPLINES</span>
+            <h2 className="text-2xl md:text-3xl font-serif uppercase tracking-wider text-white">
+              Explore By Category
+            </h2>
           </div>
         </div>
 
-        {/* Writing Category */}
-        <div className="space-y-8">
-          <h3 className="text-lg uppercase tracking-[0.25em] font-serif text-white border-b border-white/5 pb-3">
-            Writing
-          </h3>
-          <div className="grid grid-cols-1 sm:grid-cols-3 gap-4 category-grid">
-            {writingGrid.map((item, idx) => (
-              <div
-                key={idx}
-                onClick={() => setSelectedImage(item.src)}
-                className={`relative aspect-[16/10] overflow-hidden border border-white/10 rounded-sm cursor-pointer group ${item.span}`}
-              >
-                <Image
-                  src={item.src}
-                  alt={item.alt}
-                  fill
-                  className="object-cover grayscale contrast-125 group-hover:scale-105 transition-transform duration-700 ease-out"
-                />
-              </div>
-            ))}
-          </div>
-        </div>
+        {/* 3D Folders Grid */}
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 folder-grid">
+          {portfolioCategories.map((category) => {
+            const folderProjects: FolderProject[] = category.projects.map((p) => ({
+              id: p.id,
+              title: p.title,
+              image: p.image,
+            }));
 
-        {/* Acting Category */}
-        <div className="space-y-8">
-          <h3 className="text-lg uppercase tracking-[0.25em] font-serif text-white border-b border-white/5 pb-3">
-            Acting
-          </h3>
-          <div className="grid grid-cols-1 sm:grid-cols-3 gap-4 category-grid">
-            {actingGrid.map((item, idx) => (
-              <div
-                key={idx}
-                onClick={() => setSelectedImage(item.src)}
-                className={`relative aspect-[16/10] overflow-hidden border border-white/10 rounded-sm cursor-pointer group ${item.span}`}
-              >
-                <Image
-                  src={item.src}
-                  alt={item.alt}
-                  fill
-                  className="object-cover grayscale contrast-125 group-hover:scale-105 transition-transform duration-700 ease-out"
+            return (
+              <div key={category.id} className="folder-card-wrapper flex flex-col items-center">
+                <AnimatedFolder
+                  title={category.title}
+                  projects={folderProjects}
+                  onFolderClick={() => setActiveCategory(category)}
+                  className="w-full"
                 />
               </div>
-            ))}
-          </div>
-        </div>
-
-        {/* Production Category */}
-        <div className="space-y-8">
-          <h3 className="text-lg uppercase tracking-[0.25em] font-serif text-white border-b border-white/5 pb-3">
-            Production
-          </h3>
-          <div className="grid grid-cols-1 sm:grid-cols-3 gap-4 category-grid">
-            {productionGrid.map((item, idx) => (
-              <div
-                key={idx}
-                onClick={() => setSelectedImage(item.src)}
-                className={`relative aspect-[16/10] overflow-hidden border border-white/10 rounded-sm cursor-pointer group ${item.span}`}
-              >
-                <Image
-                  src={item.src}
-                  alt={item.alt}
-                  fill
-                  className="object-cover grayscale contrast-125 group-hover:scale-105 transition-transform duration-700 ease-out"
-                />
-              </div>
-            ))}
-          </div>
-        </div>
-
-        {/* Behind The Scenes Category */}
-        <div className="space-y-8">
-          <h3 className="text-lg uppercase tracking-[0.25em] font-serif text-white border-b border-white/5 pb-3">
-            Behind The Scenes
-          </h3>
-          <div className="grid grid-cols-1 sm:grid-cols-3 gap-4 category-grid">
-            {btsGrid.map((item, idx) => (
-              <div
-                key={idx}
-                onClick={() => setSelectedImage(item.src)}
-                className={`relative aspect-[16/10] overflow-hidden border border-white/10 rounded-sm cursor-pointer group ${item.span}`}
-              >
-                <Image
-                  src={item.src}
-                  alt={item.alt}
-                  fill
-                  className="object-cover grayscale contrast-125 group-hover:scale-105 transition-transform duration-700 ease-out"
-                />
-              </div>
-            ))}
-          </div>
+            );
+          })}
         </div>
       </section>
 
-      {/* 3. Bottom CTA Section */}
-      <section className="py-24 md:py-36 px-6 md:px-12 max-w-7xl mx-auto grid grid-cols-1 lg:grid-cols-12 gap-12 items-center border-t border-white/10 mt-24">
-        {/* Let's Create Title */}
-        <div className="lg:col-span-5">
-          <h3 className="font-serif tracking-widest text-4xl sm:text-5xl text-white uppercase leading-none">
-            LET&apos;S CREATE <br />
-            SOMETHING <br />
-            BEAUTIFUL <br />
-            TOGETHER
-          </h3>
-        </div>
-
-        {/* Info Right */}
-        <div className="lg:col-span-7 space-y-6">
-          <p className="text-neutral-300 text-sm sm:text-base leading-relaxed font-light">
-            Every memorable film begins with a shared vision. Whether you have an early-stage screenplay that needs a distinctive visual direction, a brand narrative waiting to be brought to life, or a commercial project seeking a sharp creative touch—I am always eager to collaborate with passionate storytellers, production companies, and agencies worldwide. Let&apos;s connect and turn your ideas into compelling visual cinema.
-          </p>
-          <button
-            onClick={onContactClick}
-            className="px-8 py-4 bg-white text-black text-xs uppercase tracking-[0.25em] font-semibold hover:bg-neutral-200 transition-colors cursor-pointer"
+      {/* Fullscreen Morphing Catalog Overlay Modal (Click outside to dismiss, no close button) */}
+      {activeCategory && (
+        <div
+          data-lenis-prevent
+          className="fixed inset-0 z-50 flex flex-col items-center justify-start p-4 md:p-10 bg-black/95 backdrop-blur-2xl overflow-y-auto max-h-screen animate-in fade-in duration-300 cursor-pointer"
+          onClick={() => setActiveCategory(null)}
+        >
+          {/* Header Bar */}
+          <div
+            className="w-full max-w-5xl flex items-center justify-between py-4 mb-4 border-b border-white/10 cursor-default"
+            onClick={(e) => e.stopPropagation()}
           >
-            Get in touch
-          </button>
-        </div>
-      </section>
+            <div className="flex items-center gap-3">
+              {activeCategory.icon}
+              <div>
+                <h2 className="text-xl md:text-2xl font-serif uppercase tracking-widest text-white">
+                  {activeCategory.title}
+                </h2>
+                <p className="text-xs text-neutral-400 font-light">{activeCategory.description}</p>
+              </div>
+            </div>
+          </div>
 
-      {/* Image Lightbox Overlay */}
-      {selectedImage && (
-        <div className="fixed inset-0 z-50 bg-[#080808]/95 backdrop-blur-md flex items-center justify-center p-4 animate-in fade-in duration-200">
-          <button
-            onClick={() => setSelectedImage(null)}
-            className="absolute top-6 right-6 text-neutral-400 hover:text-white p-2 cursor-pointer"
+          {/* Morphing Card Stack Component */}
+          <div
+            className="w-full max-w-5xl py-4 my-auto cursor-default"
+            onClick={(e) => e.stopPropagation()}
           >
-            <X size={28} />
-          </button>
-          <div className="relative max-w-5xl w-full aspect-[16/10] border border-white/10 rounded-sm overflow-hidden">
-            <Image
-              src={selectedImage}
-              alt="Lightbox View"
-              fill
-              className="object-cover grayscale contrast-125"
+            <MorphingCardStack
+              cards={activeCategory.projects.map((p) => ({
+                id: p.id,
+                title: p.title,
+                description: p.description,
+                image: p.image,
+                role: p.role,
+                year: p.year,
+                youtubeUrl: p.youtubeUrl,
+              }))}
+              defaultLayout="list"
             />
           </div>
         </div>
       )}
+
+      {/* 3. Bottom CTA Section */}
+      <section className="py-20 md:py-28 px-6 md:px-12 max-w-7xl mx-auto grid grid-cols-1 lg:grid-cols-12 gap-12 items-center border-t border-white/10 mt-28">
+        <div className="lg:col-span-6 space-y-4">
+          <span className="text-xs uppercase tracking-[0.35em] text-neutral-400 font-semibold block">COLLABORATIONS</span>
+          <h3 className="font-serif tracking-widest text-3xl sm:text-5xl text-white uppercase leading-tight">
+            LET&apos;S CREATE <br />
+            SOMETHING <br />
+            BEAUTIFUL TOGETHER
+          </h3>
+        </div>
+
+        <div className="lg:col-span-6 space-y-6">
+          <p className="text-neutral-300 text-sm sm:text-base leading-relaxed font-light">
+            Every memorable film begins with a shared vision. Whether you have an early-stage screenplay that needs a distinctive visual direction, a brand narrative waiting to be brought to life, or a commercial project seeking a sharp creative touch—I am always eager to collaborate with passionate storytellers, production companies, and agencies worldwide.
+          </p>
+          <button
+            onClick={onContactClick}
+            className="inline-flex items-center gap-3 px-8 py-4 bg-white text-black text-xs uppercase tracking-[0.25em] font-semibold hover:bg-neutral-200 transition-all rounded-none cursor-pointer shadow-lg hover:scale-105"
+          >
+            <span>Get In Touch</span>
+            <ArrowUpRight size={16} />
+          </button>
+        </div>
+      </section>
     </div>
   );
 }

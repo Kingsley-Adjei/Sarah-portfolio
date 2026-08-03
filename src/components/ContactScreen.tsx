@@ -164,22 +164,6 @@ export default function ContactScreen() {
     <div className="pt-28 pb-20 px-4 sm:px-6 md:px-12 min-h-[90vh] flex flex-col justify-center items-center">
       <div ref={containerRef} className="w-full max-w-4xl mx-auto space-y-6">
 
-        {/* Top Minimalist Header */}
-        <div className="text-center space-y-3">
-          <div className="inline-flex items-center space-x-2 px-3.5 py-1 bg-white/5 border border-white/10 rounded-full">
-            <MessageSquare className="w-3.5 h-3.5 text-neutral-300" />
-            <span className="text-[10px] uppercase tracking-[0.25em] text-neutral-300 font-medium">
-              Sarah's Assistant
-            </span>
-          </div>
-          <h1 className="text-2xl sm:text-4xl font-serif tracking-widest text-white uppercase">
-            Contact & Consultation
-          </h1>
-          <p className="text-xs sm:text-sm text-neutral-400 max-w-xl mx-auto font-light leading-relaxed">
-            Instant insights on Sarah Adjei’s directing reel, screenplay reviews, schedule availability, and project inquiries.
-          </p>
-        </div>
-
         {/* Chat Container */}
         <div className="bg-[#121212]/80 border border-white/10 rounded-lg shadow-2xl backdrop-blur-xl flex flex-col h-[650px] relative overflow-hidden">
 
@@ -224,7 +208,7 @@ export default function ContactScreen() {
             {messages.map((msg) => {
               const isBot = msg.sender === 'bot';
               return (
-                <ChatBubble key={msg.id} variant={isBot ? 'received' : 'sent'} className="group" children={undefined}>
+                <ChatBubble key={msg.id} variant={isBot ? 'received' : 'sent'} className="group">
                   <ChatBubbleAvatar
                     fallback={isBot ? 'SA' : 'YOU'}
                     className={
@@ -277,7 +261,7 @@ export default function ContactScreen() {
             })}
 
             {isTyping && (
-              <ChatBubble variant="received" children={undefined}>
+              <ChatBubble variant="received">
                 <ChatBubbleAvatar fallback="SA" className="bg-neutral-800 text-white" />
                 <ChatBubbleMessage isLoading className="bg-[#1a1a1a]" />
               </ChatBubble>
