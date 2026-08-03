@@ -85,7 +85,7 @@ export default function AboutScreen({ onContactClick }: AboutScreenProps) {
         <div ref={parallaxBgRef} className="absolute inset-0 w-full h-[120%] -top-[10%]">
           <Image
             src="/images/about-hero.webp"
-            alt="Cinema Set Background"
+            alt="Sarah Adjei Cinema Set Background — Accra Ghana Film Production"
             fill
             priority
             className="object-cover grayscale contrast-125 brightness-[0.4]"
@@ -118,7 +118,7 @@ export default function AboutScreen({ onContactClick }: AboutScreenProps) {
           <div className="absolute inset-0 w-full h-[115%] -top-[7.5%] parallax-img">
             <Image
               src="/images/about-portrait.webp"
-              alt="Sarah Portrait Adjusting Lens"
+              alt="Sarah Adjei (Abyna Koblyn) — Director & Screenwriter Portrait in Accra, Ghana"
               fill
               className="object-cover grayscale contrast-125 brightness-[0.9]"
             />
@@ -134,7 +134,7 @@ export default function AboutScreen({ onContactClick }: AboutScreenProps) {
           <div className="absolute inset-0 w-full h-[115%] -top-[7.5%] parallax-img">
             <Image
               src="/images/about-crew.webp"
-              alt="Cinema Crew On Set"
+              alt="Sarah Adjei Film Crew & Anamorphic Camera Operators On Set in Accra"
               fill
               className="object-cover grayscale contrast-125 brightness-[0.85]"
             />
@@ -155,7 +155,7 @@ export default function AboutScreen({ onContactClick }: AboutScreenProps) {
         <div className="absolute inset-0 w-full h-full">
           <Image
             src="/images/about-banner.webp"
-            alt="Cine lens background"
+            alt="Cinematic Lens Rigging — Directorial Collaboration with Sarah Adjei"
             fill
             className="object-cover grayscale contrast-125 brightness-[0.25]"
           />

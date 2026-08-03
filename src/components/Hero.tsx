@@ -98,7 +98,7 @@ export default function Hero({ onContactClick, onGetInTouchClick }: HeroProps) {
           <Image
             ref={imageRef as any}
             src="/images/hero-set.webp"
-            alt="Sarah Adjei operating anamorphic cinema camera on set in Accra"
+            alt="Sarah Adjei operating anamorphic cinema camera on set in Accra, Ghana — Award-Winning Filmmaker & Visual Director"
             fill
             priority
             className="object-cover object-center grayscale contrast-[1.1] brightness-[0.85]"

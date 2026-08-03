@@ -419,7 +419,7 @@ export default function PortfolioScreen({ onContactClick }: PortfolioScreenProps
         <div className="lg:col-span-4 relative aspect-[16/10] rounded-2xl overflow-hidden border border-white/10 grayscale contrast-125 shadow-2xl">
           <img
             src="/images/portfolio-hero.webp"
-            alt="Sarah Adjei Portfolio Archive"
+            alt="Sarah Adjei (Abyna Koblyn) — Director Portfolio Archive & Narrative Feature Films"
             className="w-full h-full object-cover"
             onError={(e) => {
               (e.target as HTMLImageElement).src =

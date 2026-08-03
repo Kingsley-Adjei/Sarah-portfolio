@@ -110,7 +110,7 @@ export default function MeetSarah() {
             <div className="absolute inset-0 w-full h-[120%] -top-[10%] portrait-img-inner">
               <Image
                 src="/images/sarah-portrait.webp"
-                alt="Sarah Adjei Filmmaker Portrait"
+                alt="Sarah Adjei (Abyna Koblyn) — Director, Screenwriter & Actress Portrait in Accra, Ghana"
                 fill
                 className="object-cover object-center grayscale contrast-125"
               />
