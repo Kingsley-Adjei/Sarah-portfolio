@@ -84,7 +84,7 @@ export default function AboutScreen({ onContactClick }: AboutScreenProps) {
       <section className="relative h-[40vh] sm:h-[50vh] flex items-center justify-center overflow-hidden border-b border-white/10">
         <div ref={parallaxBgRef} className="absolute inset-0 w-full h-[120%] -top-[10%]">
           <Image
-            src="/images/hero-set.png"
+            src="/images/about-hero.webp"
             alt="Cinema Set Background"
             fill
             priority
@@ -117,7 +117,7 @@ export default function AboutScreen({ onContactClick }: AboutScreenProps) {
         <div className="lg:col-span-6 relative w-full aspect-[4/5] overflow-hidden border border-white/10 rounded-sm shadow-2xl">
           <div className="absolute inset-0 w-full h-[115%] -top-[7.5%] parallax-img">
             <Image
-              src="/images/sarah-portrait.png"
+              src="/images/about-portrait.webp"
               alt="Sarah Portrait Adjusting Lens"
               fill
               className="object-cover grayscale contrast-125 brightness-[0.9]"
@@ -133,7 +133,7 @@ export default function AboutScreen({ onContactClick }: AboutScreenProps) {
         <div className="lg:col-span-6 order-2 lg:order-1 relative w-full aspect-[16/10] overflow-hidden border border-white/10 rounded-sm shadow-2xl">
           <div className="absolute inset-0 w-full h-[115%] -top-[7.5%] parallax-img">
             <Image
-              src="/images/hero-set.png"
+              src="/images/about-crew.webp"
               alt="Cinema Crew On Set"
               fill
               className="object-cover grayscale contrast-125 brightness-[0.85]"
@@ -154,7 +154,7 @@ export default function AboutScreen({ onContactClick }: AboutScreenProps) {
       <section className="relative py-24 md:py-36 px-6 md:px-12 border-t border-white/10 overflow-hidden scroll-reveal">
         <div className="absolute inset-0 w-full h-full">
           <Image
-            src="/images/cine-lens.png"
+            src="/images/about-banner.webp"
             alt="Cine lens background"
             fill
             className="object-cover grayscale contrast-125 brightness-[0.25]"

@@ -14,7 +14,7 @@ const services: Service[] = [
     description:
       'Commanding the set with high-contrast cinematography, precise staging, and intense character performance.',
     icon: Film,
-    image: 'https://images.unsplash.com/photo-1485846234645-a62644f84728?q=80&w=1600&auto=format&fit=crop',
+    image: '/images/explore-directing.webp',
   },
   {
     number: '02',
@@ -23,7 +23,7 @@ const services: Service[] = [
     description:
       'Developing sharp, nuanced feature screenplays, episodic series bibles, and original narrative treatments.',
     icon: Clapperboard,
-    image: 'https://images.unsplash.com/photo-1455390582262-044cdead277a?q=80&w=1600&auto=format&fit=crop',
+    image: '/images/explore-screenwriting.webp',
   },
   {
     number: '03',
@@ -32,7 +32,7 @@ const services: Service[] = [
     description:
       'Bringing raw emotion, physical vulnerability, and a commanding dramatic presence to every frame on screen.',
     icon: Video,
-    image: 'https://images.unsplash.com/photo-1534528741775-53994a69daeb?q=80&w=1600&auto=format&fit=crop',
+    image: '/images/explore-performance.webp',
   },
   {
     number: '04',
@@ -41,7 +41,7 @@ const services: Service[] = [
     description:
       'End-to-end creative producing, line management, location scouting, and festival distribution strategy worldwide.',
     icon: Sparkles,
-    image: 'https://images.unsplash.com/photo-1517604931442-7e0c8ed2963c?q=80&w=1600&auto=format&fit=crop',
+    image: '/images/explore-production.webp',
   },
   {
     number: '05',
@@ -50,7 +50,7 @@ const services: Service[] = [
     description:
       'On-set lens calibration, high-contrast lighting configurations, and intimate directorial process captures.',
     icon: Camera,
-    image: 'https://images.unsplash.com/photo-1492691527719-9d1e07e534b4?q=80&w=1600&auto=format&fit=crop',
+    image: '/images/explore-bts.webp',
   },
 ];
 

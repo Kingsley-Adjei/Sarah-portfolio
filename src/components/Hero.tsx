@@ -79,14 +79,17 @@ export default function Hero({ onContactClick, onGetInTouchClick }: HeroProps) {
       {/* Background Ambient Glow */}
       <div className="absolute top-1/4 left-1/2 -translate-x-1/2 w-[600px] h-[300px] bg-white/[0.02] rounded-full blur-[120px] pointer-events-none" />
 
-      {/* Title */}
+      {/* Title Header */}
       <div className="max-w-7xl mx-auto w-full text-center z-10 my-4">
         <h1
           ref={headingRef}
           className="font-serif tracking-widest text-3xl sm:text-5xl md:text-7xl lg:text-8xl font-normal text-white uppercase leading-[1.1]"
         >
-          FRAMING STORIES THAT LINGER.
+          SARAH ADJEI &mdash; FILMMAKER & VISUAL DIRECTOR
         </h1>
+        <h2 className="text-sm sm:text-lg uppercase tracking-[0.35em] text-neutral-400 mt-4 font-mono">
+          FRAMING STORIES THAT LINGER &bull; ACCRA, GHANA
+        </h2>
       </div>
 
       {/* Parallax Image Banner */}
@@ -94,8 +97,8 @@ export default function Hero({ onContactClick, onGetInTouchClick }: HeroProps) {
         <div className="relative w-full h-[320px] sm:h-[450px] md:h-[580px] rounded-sm overflow-hidden border border-white/10 shadow-2xl">
           <Image
             ref={imageRef as any}
-            src="/images/hero-set.png"
-            alt="Sarah Adjei on set directing"
+            src="/images/hero-set.webp"
+            alt="Sarah Adjei operating anamorphic cinema camera on set in Accra"
             fill
             priority
             className="object-cover object-center grayscale contrast-[1.1] brightness-[0.85]"
@@ -110,11 +113,11 @@ export default function Hero({ onContactClick, onGetInTouchClick }: HeroProps) {
         className="max-w-7xl mx-auto w-full flex flex-col md:flex-row items-center md:items-end justify-between gap-6 z-10"
       >
         <div className="text-center md:text-left">
-          <p className="text-xl sm:text-2xl md:text-3xl font-serif tracking-wider uppercase text-neutral-200">
-            SARAH ADJEI - FILMMAKER
-          </p>
+          <h2 className="text-xl sm:text-2xl md:text-3xl font-serif tracking-wider uppercase text-neutral-200">
+            NARRATIVE CINEMA & COMMERCIAL DIRECTING
+          </h2>
           <p className="text-xs sm:text-sm uppercase tracking-[0.35em] text-neutral-400 mt-2">
-            DIRECTOR. WRITER. ACTRESS.
+            DIRECTOR &bull; SCREENWRITER &bull; PRODUCER
           </p>
         </div>
 

@@ -311,29 +311,70 @@ export function MorphingCardStack({
               className="relative w-full max-w-5xl aspect-video overflow-hidden border border-white/15 shadow-2xl bg-black cursor-default"
               onClick={(e) => e.stopPropagation()}
             >
-              {activeVideoUrl.includes("youtube.com") || activeVideoUrl.includes("youtu.be") ? (
-                <iframe
-                  src={activeVideoUrl.replace("watch?v=", "embed/").concat("?autoplay=1")}
-                  title="Film Trailer"
-                  className="w-full h-full border-0"
-                  allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-                  allowFullScreen
-                />
-              ) : (
-                <div className="flex flex-col items-center justify-center h-full space-y-4 p-8 text-center">
-                  <Film className="w-16 h-16 text-white animate-pulse" />
-                  <h3 className="text-xl font-serif text-white uppercase tracking-wider">Official Film Preview</h3>
-                  <a
-                    href={activeVideoUrl}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="inline-flex items-center gap-2 px-6 py-3 bg-white text-black font-semibold text-xs uppercase tracking-[0.25em] hover:bg-neutral-200 transition-colors"
-                  >
-                    <span>Open Link</span>
-                    <ExternalLink size={14} />
-                  </a>
-                </div>
-              )}
+              {(() => {
+                if (!activeVideoUrl) return null;
+
+                const isLocalVideo =
+                  activeVideoUrl.endsWith(".mp4") ||
+                  activeVideoUrl.endsWith(".webm") ||
+                  activeVideoUrl.endsWith(".mov") ||
+                  activeVideoUrl.includes(".mp4");
+
+                if (isLocalVideo) {
+                  return (
+                    <video
+                      src={activeVideoUrl}
+                      controls
+                      autoPlay
+                      className="w-full h-full object-contain bg-black"
+                    >
+                      Your browser does not support the video tag.
+                    </video>
+                  );
+                }
+
+                if (
+                  activeVideoUrl.includes("youtube.com") ||
+                  activeVideoUrl.includes("youtu.be")
+                ) {
+                  let embedUrl = activeVideoUrl;
+                  if (activeVideoUrl.includes("youtu.be/")) {
+                    const videoId = activeVideoUrl.split("youtu.be/")[1]?.split("?")[0];
+                    embedUrl = `https://www.youtube.com/embed/${videoId}?autoplay=1&rel=0`;
+                  } else if (activeVideoUrl.includes("watch?v=")) {
+                    const videoId = activeVideoUrl.split("watch?v=")[1]?.split("&")[0];
+                    embedUrl = `https://www.youtube.com/embed/${videoId}?autoplay=1&rel=0`;
+                  } else if (!activeVideoUrl.includes("embed/")) {
+                    embedUrl = activeVideoUrl.replace("watch?v=", "embed/").concat("?autoplay=1");
+                  }
+
+                  return (
+                    <iframe
+                      src={embedUrl}
+                      title="Film Trailer"
+                      className="w-full h-full border-0"
+                      allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                      allowFullScreen
+                    />
+                  );
+                }
+
+                return (
+                  <div className="flex flex-col items-center justify-center h-full space-y-4 p-8 text-center">
+                    <Film className="w-16 h-16 text-white animate-pulse" />
+                    <h3 className="text-xl font-serif text-white uppercase tracking-wider">Official Film Preview</h3>
+                    <a
+                      href={activeVideoUrl}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="inline-flex items-center gap-2 px-6 py-3 bg-white text-black font-semibold text-xs uppercase tracking-[0.25em] hover:bg-neutral-200 transition-colors"
+                    >
+                      <span>Open Link</span>
+                      <ExternalLink size={14} />
+                    </a>
+                  </div>
+                );
+              })()}
             </div>
           </div>
         )}

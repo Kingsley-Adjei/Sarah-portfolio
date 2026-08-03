@@ -109,7 +109,7 @@ export default function MeetSarah() {
           <div className="relative w-full aspect-[4/5] rounded-sm overflow-hidden border border-white/10 glass-panel shadow-2xl group">
             <div className="absolute inset-0 w-full h-[120%] -top-[10%] portrait-img-inner">
               <Image
-                src="/images/sarah-portrait.png"
+                src="/images/sarah-portrait.webp"
                 alt="Sarah Adjei Filmmaker Portrait"
                 fill
                 className="object-cover object-center grayscale contrast-125"

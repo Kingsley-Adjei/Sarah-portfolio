@@ -2,31 +2,31 @@ import React from 'react';
 import Image from '@/components/ui/Image';
 
 const column1 = [
-  { src: 'https://images.unsplash.com/photo-1518173946687-a4c8a383392e?q=80&w=800&auto=format&fit=crop', alt: 'Cinema Lens Shot' },
-  { src: '/images/sarah-portrait.png', alt: 'Sarah Directing' },
-  { src: 'https://images.unsplash.com/photo-1485846234645-a62644f84728?q=80&w=800&auto=format&fit=crop', alt: 'Film Set Lighting' },
-  { src: '/images/screenplay.png', alt: 'Screenplay Desk' },
+  { src: '/images/journey-1.webp', alt: 'Cinema Lens Shot' },
+  { src: '/images/journey-2.webp', alt: 'Sarah Directing' },
+  { src: '/images/journey-3.webp', alt: 'Film Set Lighting' },
+  { src: '/images/journey-4.webp', alt: 'Screenplay Desk' },
 ];
 
 const column2 = [
-  { src: '/images/hero-set.png', alt: 'Set Monitor Feed' },
-  { src: 'https://images.unsplash.com/photo-1536440136628-849c177e76a1?q=80&w=800&auto=format&fit=crop', alt: 'Neo Noir Scene' },
-  { src: '/images/performance.png', alt: 'Performance Close Up' },
-  { src: 'https://images.unsplash.com/photo-1492691527719-9d1e07e534b4?q=80&w=800&auto=format&fit=crop', alt: 'Anamorphic Rig' },
+  { src: '/images/journey-5.webp', alt: 'Set Monitor Feed' },
+  { src: '/images/journey-6.webp', alt: 'Neo Noir Scene' },
+  { src: '/images/journey-7.webp', alt: 'Performance Close Up' },
+  { src: '/images/journey-8.webp', alt: 'Anamorphic Rig' },
 ];
 
 const column3 = [
-  { src: '/images/cine-lens.png', alt: 'Cine Lens Details' },
-  { src: 'https://images.unsplash.com/photo-1534528741775-53994a69daeb?q=80&w=800&auto=format&fit=crop', alt: 'Lead Role Frame' },
-  { src: '/images/bts-slate.png', alt: 'Clapperboard Slate' },
-  { src: 'https://images.unsplash.com/photo-1478720568477-152d9b164e26?q=80&w=800&auto=format&fit=crop', alt: 'Midnight Cinema' },
+  { src: '/images/journey-9.webp', alt: 'Cine Lens Details' },
+  { src: '/images/journey-10.webp', alt: 'Lead Role Frame' },
+  { src: '/images/journey-11.webp', alt: 'Clapperboard Slate' },
+  { src: '/images/journey-12.webp', alt: 'Midnight Cinema' },
 ];
 
 const column4 = [
-  { src: 'https://images.unsplash.com/photo-1516321318423-f06f85e504b3?q=80&w=800&auto=format&fit=crop', alt: 'Vintage Script Note' },
-  { src: '/images/sarah-portrait.png', alt: 'Director Viewfinder' },
-  { src: 'https://images.unsplash.com/photo-1517604931442-7e0c8ed2963c?q=80&w=800&auto=format&fit=crop', alt: 'Golden Hour Rig' },
-  { src: '/images/hero-set.png', alt: 'Sunset Silhouette Shoot' },
+  { src: '/images/journey-13.webp', alt: 'Vintage Script Note' },
+  { src: '/images/journey-14.webp', alt: 'Director Viewfinder' },
+  { src: '/images/journey-15.webp', alt: 'Golden Hour Rig' },
+  { src: '/images/journey-16.webp', alt: 'Sunset Silhouette Shoot' },
 ];
 
 export default function InstagramFeed() {
