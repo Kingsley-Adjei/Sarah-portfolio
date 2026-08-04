@@ -162,6 +162,7 @@ export default function AboutScreen({ onContactClick }: AboutScreenProps) {
           <div className="absolute inset-0 bg-gradient-to-t from-[#080808] via-[#080808]/60 to-[#080808]/90" />
         </div>
 
+
         <div className="relative z-10 max-w-7xl mx-auto grid grid-cols-1 lg:grid-cols-12 gap-8 items-center">
           {/* Text Left */}
           <div className="lg:col-span-7 space-y-6">
