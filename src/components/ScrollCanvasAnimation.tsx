@@ -99,25 +99,7 @@ export default function ScrollCanvasAnimation() {
       }
     };
 
-    // Preload image sequence with error handling fallback
-    for (let i = 0; i < frameCount; i++) {
-      const img = new Image();
-      img.src = currentFrame(i);
-      img.onload = () => {
-        images[i] = img;
-        loadedCount++;
-        if (loadedCount === frameCount) {
-          setImagesLoaded(true);
-        }
-        render();
-      };
-      img.onerror = () => {
-        images[i] = null;
-        render();
-      };
-    }
-
-    // Initial render
+    // Initial render using procedural cinematic canvas
     render();
 
     // GSAP ScrollTrigger binding across hero section
