@@ -2,6 +2,7 @@ import { useEffect, useRef } from 'react';
 import Image from '@/components/ui/Image';
 import gsap from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
+import { useSanityData } from '@/lib/useSanityData';
 
 interface AboutScreenProps {
   onContactClick: () => void;
@@ -11,19 +12,27 @@ export default function AboutScreen({ onContactClick }: AboutScreenProps) {
   const containerRef = useRef<HTMLDivElement>(null);
   const headerTextRef = useRef<HTMLHeadingElement>(null);
   const parallaxBgRef = useRef<HTMLDivElement>(null);
+  const { data: sanityData } = useSanityData();
+
+  const aboutHeroImg = sanityData?.aboutHeroImage || '/images/about-hero.webp';
+  const aboutPortraitImg = sanityData?.aboutPortraitImage || '/images/about-portrait.webp';
+  const aboutCrewImg = sanityData?.aboutCrewImage || '/images/about-crew.webp';
+  const aboutBannerImg = sanityData?.aboutBannerImage || '/images/about-banner.webp';
+  const headerTitle = sanityData?.aboutHeaderTitle || 'KNOW SARAH';
+  const philosophyQuote =
+    sanityData?.philosophyQuote ||
+    'For me, cinema is a medium of raw vulnerability. Every frame is an opportunity to explore the complex, unspoken layers of human relationships and culture. I treat writing as building the soul of a project, directing as shaping its heartbeat, and acting as living its truth. It’s about creating art that challenges, resonates, and moves the audience long after the credits roll.';
 
   useEffect(() => {
     gsap.registerPlugin(ScrollTrigger);
 
     const ctx = gsap.context(() => {
-      // Fade in header text
       gsap.fromTo(
         headerTextRef.current,
         { opacity: 0, y: 50 },
         { opacity: 1, y: 0, duration: 1.2, ease: 'power3.out' }
       );
 
-      // Header background parallax
       if (parallaxBgRef.current) {
         gsap.to(parallaxBgRef.current, {
           yPercent: 15,
@@ -37,7 +46,6 @@ export default function AboutScreen({ onContactClick }: AboutScreenProps) {
         });
       }
 
-      // Staggered reveal of sections
       const revealElements = gsap.utils.toArray('.scroll-reveal');
       revealElements.forEach((el: any) => {
         gsap.fromTo(
@@ -59,7 +67,6 @@ export default function AboutScreen({ onContactClick }: AboutScreenProps) {
         );
       });
 
-      // Parallax images
       const parallaxImages = gsap.utils.toArray('.parallax-img');
       parallaxImages.forEach((img: any) => {
         gsap.to(img, {
@@ -84,7 +91,7 @@ export default function AboutScreen({ onContactClick }: AboutScreenProps) {
       <section className="relative h-[40vh] sm:h-[50vh] flex items-center justify-center overflow-hidden border-b border-white/10">
         <div ref={parallaxBgRef} className="absolute inset-0 w-full h-[120%] -top-[10%]">
           <Image
-            src="/images/about-hero.webp"
+            src={aboutHeroImg}
             alt="Sarah Adjei Cinema Set Background — Accra Ghana Film Production"
             fill
             priority
@@ -96,7 +103,7 @@ export default function AboutScreen({ onContactClick }: AboutScreenProps) {
           ref={headerTextRef}
           className="relative z-10 font-serif tracking-[0.25em] text-4xl sm:text-6xl md:text-7xl font-normal text-white uppercase text-center"
         >
-          KNOW SARAH
+          {headerTitle}
         </h1>
       </section>
 
@@ -108,16 +115,31 @@ export default function AboutScreen({ onContactClick }: AboutScreenProps) {
           <h2 className="text-3xl sm:text-5xl font-serif tracking-widest text-white uppercase leading-[1.15]">
             I&apos;m Sarah Adjei
           </h2>
-          <p className="text-neutral-300 text-base sm:text-lg leading-relaxed font-light">
-            Sarah Adjei is a filmmaker, screenwriter, and actress dedicated to carving out raw, visually arresting narratives. Navigating the intersection of delicate human emotion and bold storytelling, she brings a distinctive, moody aesthetic to both independent cinema and commercial screens. Whether directing behind the lens, drafting scripts, or performing, her creative mission remains unyielding: telling stories that linger.
-          </p>
+          <div className="text-neutral-300 text-base sm:text-lg leading-relaxed font-light space-y-4">
+            {sanityData?.biography && sanityData.biography.length > 0 ? (
+              sanityData.biography.map((block: any, idx: number) => {
+                if (block._type === 'block' && block.children) {
+                  return (
+                    <p key={block._key || idx}>
+                      {block.children.map((child: any) => child.text).join('')}
+                    </p>
+                  );
+                }
+                return null;
+              })
+            ) : (
+              <p>
+                Sarah Adjei is a filmmaker, screenwriter, and actress dedicated to carving out raw, visually arresting narratives. Navigating the intersection of delicate human emotion and bold storytelling, she brings a distinctive, moody aesthetic to both independent cinema and commercial screens. Whether directing behind the lens, drafting scripts, or performing, her creative mission remains unyielding: telling stories that linger.
+              </p>
+            )}
+          </div>
         </div>
 
         {/* Right Side Portrait Image */}
         <div className="lg:col-span-6 relative w-full aspect-[4/5] overflow-hidden border border-white/10 rounded-sm shadow-2xl">
           <div className="absolute inset-0 w-full h-[115%] -top-[7.5%] parallax-img">
             <Image
-              src="/images/about-portrait.webp"
+              src={aboutPortraitImg}
               alt="Sarah Adjei (Abyna Koblyn) — Director & Screenwriter Portrait in Accra, Ghana"
               fill
               className="object-cover grayscale contrast-125 brightness-[0.9]"
@@ -133,7 +155,7 @@ export default function AboutScreen({ onContactClick }: AboutScreenProps) {
         <div className="lg:col-span-6 order-2 lg:order-1 relative w-full aspect-[16/10] overflow-hidden border border-white/10 rounded-sm shadow-2xl">
           <div className="absolute inset-0 w-full h-[115%] -top-[7.5%] parallax-img">
             <Image
-              src="/images/about-crew.webp"
+              src={aboutCrewImg}
               alt="Sarah Adjei Film Crew & Anamorphic Camera Operators On Set in Accra"
               fill
               className="object-cover grayscale contrast-125 brightness-[0.85]"
@@ -145,7 +167,7 @@ export default function AboutScreen({ onContactClick }: AboutScreenProps) {
         {/* Right Side Philosophy Quote */}
         <div className="lg:col-span-6 order-1 lg:order-2 space-y-6 lg:pl-6">
           <p className="text-neutral-300 text-base sm:text-lg leading-relaxed font-light italic">
-            &ldquo;For me, cinema is a medium of raw vulnerability. Every frame is an opportunity to explore the complex, unspoken layers of human relationships and culture. I treat writing as building the soul of a project, directing as shaping its heartbeat, and acting as living its truth. It&apos;s about creating art that challenges, resonates, and moves the audience long after the credits roll.&rdquo;
+            &ldquo;{philosophyQuote}&rdquo;
           </p>
         </div>
       </section>
@@ -154,14 +176,13 @@ export default function AboutScreen({ onContactClick }: AboutScreenProps) {
       <section className="relative py-24 md:py-36 px-6 md:px-12 border-t border-white/10 overflow-hidden scroll-reveal">
         <div className="absolute inset-0 w-full h-full">
           <Image
-            src="/images/about-banner.webp"
+            src={aboutBannerImg}
             alt="Cinematic Lens Rigging — Directorial Collaboration with Sarah Adjei"
             fill
             className="object-cover grayscale contrast-125 brightness-[0.25]"
           />
           <div className="absolute inset-0 bg-gradient-to-t from-[#080808] via-[#080808]/60 to-[#080808]/90" />
         </div>
-
 
         <div className="relative z-10 max-w-7xl mx-auto grid grid-cols-1 lg:grid-cols-12 gap-8 items-center">
           {/* Text Left */}

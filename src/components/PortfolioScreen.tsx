@@ -1,3 +1,4 @@
+import { useSanityData } from '@/lib/useSanityData';
 import React, { useState, useEffect, useRef } from 'react';
 import { AnimatedFolder, FolderProject } from '@/components/ui/3d-folder';
 import { MorphingCardStack } from '@/components/ui/morphing-card-stack';
@@ -348,6 +349,39 @@ const portfolioCategories: PortfolioCategory[] = [
 export default function PortfolioScreen({ onContactClick }: PortfolioScreenProps) {
   const containerRef = useRef<HTMLDivElement>(null);
   const [activeCategory, setActiveCategory] = useState<PortfolioCategory | null>(null);
+  const { data: sanityData } = useSanityData();
+
+  const getCategoryIcon = (iconName?: string) => {
+    switch (iconName) {
+      case 'clapperboard':
+        return <Clapperboard className="w-5 h-5 text-white" />;
+      case 'video':
+        return <Video className="w-5 h-5 text-white" />;
+      case 'sparkles':
+        return <Sparkles className="w-5 h-5 text-white" />;
+      default:
+        return <Film className="w-5 h-5 text-white" />;
+    }
+  };
+
+  const categoriesToRender: PortfolioCategory[] =
+    sanityData?.categories && sanityData.categories.length > 0
+      ? sanityData.categories.map((cat) => ({
+          id: cat.id,
+          title: cat.title,
+          description: cat.description || '',
+          icon: getCategoryIcon(cat.iconName),
+          projects: (cat.projects || []).map((p) => ({
+            id: p.id,
+            title: p.title,
+            description: p.description || '',
+            image: p.image || '/images/portfolio-hero.webp',
+            role: p.role || 'Filmmaker',
+            year: p.year || '2025',
+            youtubeUrl: p.youtubeUrl || undefined,
+          })),
+        }))
+      : portfolioCategories;
 
   // Lock background body scroll & pause Lenis when modal overlay is open
   useEffect(() => {
@@ -443,7 +477,7 @@ export default function PortfolioScreen({ onContactClick }: PortfolioScreenProps
 
         {/* 3D Folders Grid */}
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 folder-grid">
-          {portfolioCategories.map((category) => {
+          {categoriesToRender.map((category) => {
             const folderProjects: FolderProject[] = category.projects.map((p) => ({
               id: p.id,
               title: p.title,

@@ -30,6 +30,20 @@ export const categoryType = defineType({
       description: 'Brief overview displayed when opening this folder',
     }),
     defineField({
+      name: 'iconName',
+      title: 'Folder Icon Type',
+      type: 'string',
+      options: {
+        list: [
+          { title: 'Film Roll (Directing / BTS)', value: 'film' },
+          { title: 'Clapperboard (Screenwriting)', value: 'clapperboard' },
+          { title: 'Video Camera (Performance)', value: 'video' },
+          { title: 'Sparkles (Production)', value: 'sparkles' },
+        ],
+      },
+      description: 'Icon displayed on the 3D folder header modal',
+    }),
+    defineField({
       name: 'projects',
       title: 'Projects in this Folder',
       type: 'array',
