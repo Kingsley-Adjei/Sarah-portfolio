@@ -1,8 +1,13 @@
 import withPWAInit from '@ducanh2912/next-pwa'
+import path from 'path'
+import { fileURLToPath } from 'url'
+
+const __filename = fileURLToPath(import.meta.url)
+const __dirname = path.dirname(__filename)
 
 const withPWA = withPWAInit({
   dest: 'public',
-  disable: false, // PWA active for both development and production
+  disable: false,
   register: true,
   skipWaiting: true,
   workboxOptions: {
@@ -35,8 +40,8 @@ const withPWA = withPWAInit({
 
 /** @type {import('next').NextConfig} */
 const nextConfig = {
+  outputFileTracingRoot: __dirname,
   images: {
-    // Direct delivery from Sanity CDN bypasses Next.js Node server image proxy timeouts
     unoptimized: true,
     remotePatterns: [
       {
