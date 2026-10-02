@@ -2,7 +2,7 @@ import withPWAInit from '@ducanh2912/next-pwa'
 
 const withPWA = withPWAInit({
   dest: 'public',
-  disable: process.env.NODE_ENV === 'development',
+  disable: false, // PWA active for both development and production
   register: true,
   skipWaiting: true,
   workboxOptions: {
@@ -15,6 +15,17 @@ const withPWA = withPWAInit({
           expiration: {
             maxEntries: 50,
             maxAgeSeconds: 24 * 60 * 60, // 24 Hours
+          },
+        },
+      },
+      {
+        urlPattern: /^https:\/\/cdn\.sanity\.io\/.*/,
+        handler: 'StaleWhileRevalidate',
+        options: {
+          cacheName: 'sanity-media-cache',
+          expiration: {
+            maxEntries: 100,
+            maxAgeSeconds: 30 * 24 * 60 * 60, // 30 Days
           },
         },
       },

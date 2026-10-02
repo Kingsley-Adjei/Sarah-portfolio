@@ -1,10 +1,22 @@
-import type { Metadata } from 'next'
+import type { Metadata, Viewport } from 'next'
 import Script from 'next/script'
 import '../src/index.css'
+
+export const viewport: Viewport = {
+  themeColor: '#101112',
+  width: 'device-width',
+  initialScale: 1,
+}
 
 export const metadata: Metadata = {
   title: 'Sarah Adjei — Filmmaker & Visual Director',
   description: 'Official portfolio of Sarah Adjei (Abyna Koblyn), filmmaker, screenwriter, producer, and director based in Accra, Ghana.',
+  manifest: '/manifest.webmanifest',
+  appleWebApp: {
+    capable: true,
+    statusBarStyle: 'black-translucent',
+    title: 'Studio App',
+  },
 }
 
 export default function RootLayout({
